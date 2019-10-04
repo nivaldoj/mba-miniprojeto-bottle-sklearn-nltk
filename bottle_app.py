@@ -14,49 +14,50 @@ from bottle import run
 from sklearn.naive_bayes import GaussianNB
 import joblib
 
-# Definição das possíveis rotas para a função de callback
-
 
 @get('/')
 def index():
     # carrega a página inicial do projeto
     return template("index.html")
 
-# Definição da rota e função de callback
-@post('/form/')
-def index_resposta():
-    # Pega os valores informados no formulário e atribui a variaveis locais
+
+@get('/projeto_mamiferos')
+def mamiferos_get():
+    return template("forms/form_mamifero.html", animal="-", classificacao="-", probabilidade="-")
+
+
+@post('/projeto_mamiferos')
+def mamiferos_post():
+    # obtêm valores informados no formulário
     animal = request.forms.get('animal')
-    sangue = request.forms.get('sangue')
-    bota_ovo = request.forms.get('bota_ovo')
-    voa = request.forms.get('voa')
-    mora_agua = request.forms.get('mora_agua')
+    sangue = int(request.forms.get('sangue'))
+    bota_ovo = int(request.forms.get('bota_ovo'))
+    voa = int(request.forms.get('voa'))
+    mora_agua = int(request.forms.get('mora_agua'))
 
-    modelo_NB = GaussianNB()
-    # Carrega o modelo gerado
-    modelo_NB = joblib.load('models/model_mamifero.pkl')
-    # Executa a classificação
-    res = modelo_NB.predict(
-        [[int(sangue), int(bota_ovo), int(voa), int(mora_agua)]])
+    # carrega o modelo
+    modelo_nb = GaussianNB()
+    modelo_nb = joblib.load('models/model_mamifero.pkl')
 
-    # Encontra o valor da confidência
-    probabilidade = modelo_NB.predict_proba(
-        [[int(sangue), int(bota_ovo), int(voa), int(mora_agua)]])
+    # executa a classificação
+    res = modelo_nb.predict([[sangue, bota_ovo, voa, mora_agua]])
+
+    # encontra o valor da confidência
+    prb = modelo_nb.predict_proba([[sangue, bota_ovo, voa, mora_agua]])
 
     if res == 1:
-        classificacao = "Mamífero"
+        clf = "Mamífero"
     elif res == 0:
-        classificacao = "Não Mamífero"
+        clf = "Não mamífero"
     else:
-        classificacao = "Indefinido"
+        clf = "Indefinido"
 
-    # Renderiza o template com os valores passados como argumento
-    return template('forms/form_mamifero.html', animal=animal, classificacao=classificacao, probabilidade=probabilidade)
-    # return template('/home/ricardorobertolima/mysite/Formulario.html', animal = animal, classificacao = classificacao)
+    # renderiza o template
+    return template('forms/form_mamifero.html', animal=animal, classificacao=clf, probabilidade=prb)
 
 
+# executa a aplicação bottle
 application = default_app()
 
-
 # necessário para executar localmente
-run(application, host="localhost", port=8080)
+run(application, host="localhost", port=80)
