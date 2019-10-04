@@ -13,6 +13,7 @@ from bottle import default_app, template, request, post, get
 from bottle import run
 from sklearn.naive_bayes import GaussianNB
 import joblib
+import nltk
 
 # caminho da pasta do projeto no servidor
 PASTA_PROJETO = "/home/projetonmcj/mysite/"
@@ -94,6 +95,60 @@ def credito_post():
 
     # renderiza o template com os resultados
     return template(PASTA_PROJETO + "forms/form_credito.html", risco=clf, renda=renda, probabilidade=prb)
+
+
+@get("/projeto_nltk")
+def linguagem_get():
+    # renderiza o formulário de classificação de texto
+    return template(PASTA_PROJETO + "forms/form_nltk.html", classificacao="-", classes="-")
+
+
+@post("/projeto_nltk")
+def linguagem_post():
+    """
+    pacotes usados: averaged_perceptron_tagger, city_database, floresta, ieer,
+    comparative_sentences, large_grammars, mac_morpho, machado, opinion_lexicon,
+    sample_grammars, spanish_grammars, twitter_samples, unicode_samples, rslp,
+    names, omw, qc, stopwords, udhr2, wordnet
+    """
+    # realiza o download dos arquivos da library
+    # nltk.download()
+
+    # faz a leitura do texto
+    texto = str(request.forms.get('texto')).lower().strip()
+
+    # separa o texto por palavras e realiza stemming
+    stemmer = nltk.stem.RSLPStemmer()
+    texto_stem = []
+
+    for palavra in texto.split():
+        texto_stem.append(str(stemmer.stem(palavra)))
+
+    # carrega o modelo
+    unique_words = joblib.load(
+        PASTA_PROJETO + "models/model_ntlk_uniquewords.pkl")
+    classifier = joblib.load(
+        PASTA_PROJETO + "models/model_nltk_classifier.pkl")
+
+    # prepara texto para classificação, obtendo as características
+    docmnt = set(texto_stem)
+    caract = {}
+
+    for palavras in unique_words:
+        caract['%s' % palavras] = (palavras in docmnt)
+
+    # executa a classificação
+    clasf = classifier.classify(caract)
+    distr = classifier.prob_classify(caract)
+    reslt = []
+
+    for classe in distr.samples():
+        reslt.append("%s: %f" % (classe, (distr.prob(classe) * 100)))
+
+    reslt = " - ".join(reslt)
+
+    # renderiza o template com os resultados
+    return template(PASTA_PROJETO + "forms/form_nltk.html", classificacao=clasf, classes=reslt)
 
 
 # executa a aplicação bottle
