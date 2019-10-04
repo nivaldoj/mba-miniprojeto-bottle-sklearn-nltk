@@ -17,12 +17,13 @@ import joblib
 
 @get('/')
 def index():
-    # carrega a página inicial do projeto
+    # renderiza a página inicial do projeto
     return template("index.html")
 
 
 @get('/projeto_mamiferos')
 def mamiferos_get():
+    # renderiza o formulário de classificação de mamíferos
     return template("forms/form_mamifero.html", animal="-", classificacao="-", probabilidade="-")
 
 
@@ -60,4 +61,4 @@ def mamiferos_post():
 application = default_app()
 
 # necessário para executar localmente
-run(application, host="localhost", port=80)
+#run(application, host="localhost", port=80)
