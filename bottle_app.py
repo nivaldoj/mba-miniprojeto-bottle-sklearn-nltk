@@ -31,7 +31,7 @@ def index_resposta():
 
     modelo_NB = GaussianNB()
     #Carrega o modelo gerado
-    modelo_NB = joblib.load('/home/ricardorobertolima/mysite/modelo_mamifero_MNB.pkl')
+    modelo_NB = joblib.load('models/model_mamifero.pkl')
     #Executa a classificação
     res = modelo_NB.predict([[int(sangue), int(bota_ovo), int(voa), int(mora_agua)]])
 
