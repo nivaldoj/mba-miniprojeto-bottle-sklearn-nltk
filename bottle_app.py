@@ -14,10 +14,9 @@ import joblib
 #Definição das possíveis rotas para a função de callback
 
 @get('/')
-@get('/form/')
 def index():
-     #Definição de valores iniciais para as expressões animal, classificação e probabilidade
-     return template('forms/form_mamifero.html', animal = "-", classificacao = "-", probabilidade = "-")
+    # carrega a página inicial do projeto
+    return template("index.html")
 
 #Definição da rota e função de callback
 @post('/form/')
