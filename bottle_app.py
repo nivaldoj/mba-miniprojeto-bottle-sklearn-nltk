@@ -18,19 +18,19 @@ import joblib
 PASTA_PROJETO = "/home/projetonmcj/mysite/"
 
 
-@get('/')
+@get("/")
 def index():
     # renderiza a página inicial do projeto
     return template(PASTA_PROJETO + "index.html")
 
 
-@get('/projeto_mamiferos')
+@get("/projeto_mamiferos")
 def mamiferos_get():
     # renderiza o formulário de classificação de mamíferos
     return template(PASTA_PROJETO + "forms/form_mamifero.html", animal="-", classificacao="-", probabilidade="-")
 
 
-@post('/projeto_mamiferos')
+@post("/projeto_mamiferos")
 def mamiferos_post():
     # obtêm valores informados no formulário
     animal = request.forms.get('animal')
@@ -60,13 +60,13 @@ def mamiferos_post():
     return template(PASTA_PROJETO + "forms/form_mamifero.html", animal=animal, classificacao=clf, probabilidade=prb)
 
 
-@get('/projeto_credito')
+@get("/projeto_credito")
 def credito_get():
     # renderiza o formulário de classificação de crédito
     return template(PASTA_PROJETO + "forms/form_credito.html", risco="-", renda="-", probabilidade="-")
 
 
-@post('/projeto_credito')
+@post("/projeto_credito")
 def credito_post():
     # obtêm valores informados no formulário
     pessoa = request.forms.get('pessoa')
