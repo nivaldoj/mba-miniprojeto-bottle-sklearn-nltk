@@ -17,7 +17,7 @@ import joblib
 @get('/form/')
 def index():
      #Definição de valores iniciais para as expressões animal, classificação e probabilidade
-     return template('templates/form_mamifero.html', animal = "-", classificacao = "-", probabilidade = "-")
+     return template('forms/form_mamifero.html', animal = "-", classificacao = "-", probabilidade = "-")
 
 #Definição da rota e função de callback
 @post('/form/')
@@ -46,11 +46,11 @@ def index_resposta():
         classificacao = "Indefinido"
 
     #Renderiza o template com os valores passados como argumento
-    return template('templates/form_mamifero.html', animal = animal, classificacao = classificacao, probabilidade = probabilidade)
+    return template('forms/form_mamifero.html', animal = animal, classificacao = classificacao, probabilidade = probabilidade)
     #return template('/home/ricardorobertolima/mysite/Formulario.html', animal = animal, classificacao = classificacao)
 
 application = default_app()
 
 
 # necessário para executar localmente
-# run(application, host="localhost", port=8080)
+run(application, host="localhost", port=8080)
