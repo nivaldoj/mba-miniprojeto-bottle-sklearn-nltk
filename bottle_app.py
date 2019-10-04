@@ -7,6 +7,7 @@ Projeto PaaS com Bottle
 """
 
 from bottle import default_app, template, request, post, get
+from bottle import run
 from sklearn.naive_bayes import GaussianNB
 import joblib
 
@@ -49,3 +50,7 @@ def index_resposta():
     #return template('/home/ricardorobertolima/mysite/Formulario.html', animal = animal, classificacao = classificacao)
 
 application = default_app()
+
+
+# necessário para executar localmente
+# run(application, host="localhost", port=8080)
