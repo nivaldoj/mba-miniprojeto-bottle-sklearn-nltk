@@ -1,8 +1,14 @@
-#Autor: Ricardo Roberto de Lima - 2018 -> projeto de bottle
-#Conjunto de importacoes
+"""
+Disciplina: Gestão do Conhecimento e Big Data
+Professor: Ricardo Roberto de Lima
+Aluno: Nivaldo Mariano de Carvalho Junior
+
+Projeto PaaS com Bottle
+"""
+
 from bottle import default_app, template, request, post, get
 from sklearn.naive_bayes import GaussianNB
-from sklearn.externals import joblib
+import joblib
 
 #Definição das possíveis rotas para a função de callback
 
