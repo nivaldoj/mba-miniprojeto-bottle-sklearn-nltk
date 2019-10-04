@@ -106,10 +106,10 @@ def linguagem_get():
 @post("/projeto_nltk")
 def linguagem_post():
     """
-    pacotes usados: averaged_perceptron_tagger, city_database, floresta, ieer,
+    pacotes instalados: averaged_perceptron_tagger, city_database, floresta, 
     comparative_sentences, large_grammars, mac_morpho, machado, opinion_lexicon,
     sample_grammars, spanish_grammars, twitter_samples, unicode_samples, rslp,
-    names, omw, qc, stopwords, udhr2, wordnet
+    names, omw, qc, stopwords, udhr2, wordnet, ieer
     """
     # realiza o download dos arquivos da library
     # nltk.download()
